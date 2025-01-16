@@ -328,7 +328,7 @@ Term::Event Term::Private::Input::getEvent() { return m_events.pop(); }
 Term::Event Term::Private::Input::getEventBlocking()
 {
   static std::mutex                   cv_m;
-  static std::unique_lock<std::mutex> lk(cv_m);
+  std::unique_lock<std::mutex> lk(cv_m);
   if(m_events.empty()) m_events.wait_for_events(lk);
   return m_events.pop();
 }
