@@ -171,6 +171,7 @@ Term::Event& Term::Event::operator=(Term::Event&& other) noexcept
     case Type::Mouse: std::swap(m_container.m_Mouse, other.m_container.m_Mouse); break;
     default: break;
   }
+  m_Type = other.m_Type;
   return *this;
 }
 
