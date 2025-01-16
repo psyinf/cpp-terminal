@@ -10,10 +10,14 @@
 #pragma once
 
 #include "cpp-terminal/event.hpp"
+#include <chrono>
+#include <optional>
 
 namespace Term
 {
 
 Term::Event read_event();
+
+std::optional<Term::Event> read_event(std::chrono::high_resolution_clock::duration timeout);
 
 }  // namespace Term

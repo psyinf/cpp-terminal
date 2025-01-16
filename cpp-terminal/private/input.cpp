@@ -333,6 +333,22 @@ Term::Event Term::Private::Input::getEventBlocking()
   return m_events.pop();
 }
 
+
+std::optional<Term::Event> Term::Private::Input::getEventBlocking(std::chrono::high_resolution_clock::duration timeout)
+{
+  static std::mutex            cv_m;
+  std::unique_lock<std::mutex> lk(cv_m);
+  if (m_events.empty()) {
+    if (m_events.wait_for_events(lk, timeout))
+    {
+      return m_events.pop();
+    }
+    return std::nullopt;
+  }
+  return m_events.pop();
+}
+
+
 static Term::Private::Input m_input;
 
 Term::Event Term::read_event()
@@ -340,3 +356,11 @@ Term::Event Term::read_event()
   m_input.startReading();
   return m_input.getEventBlocking();
 }
+
+
+std::optional<Term::Event> Term::read_event(std::chrono::high_resolution_clock::duration timeout)
+{
+  m_input.startReading();
+  return m_input.getEventBlocking(timeout);
+}
+

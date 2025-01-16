@@ -36,6 +36,7 @@ public:
   bool           empty();
   std::size_t    size();
   void           wait_for_events(std::unique_lock<std::mutex>& lock);
+  bool           wait_for_events(std::unique_lock<std::mutex>& lock, std::chrono::high_resolution_clock::duration timeout);
 
 private:
   std::mutex              m_mutex;

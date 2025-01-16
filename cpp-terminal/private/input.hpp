@@ -13,6 +13,8 @@
 
 #include <cstdint>
 #include <thread>
+#include <chrono>
+#include <optional>
 
 namespace Term
 {
@@ -30,6 +32,7 @@ public:
   static void        startReading();
   static Term::Event getEvent();
   static Term::Event getEventBlocking();
+  static std::optional<Term::Event> getEventBlocking(std::chrono::high_resolution_clock::duration timeout);
 
 private:
   static void read_event();

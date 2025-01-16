@@ -50,3 +50,9 @@ std::size_t Term::Private::BlockingQueue::size()
 }
 
 void Term::Private::BlockingQueue::wait_for_events(std::unique_lock<std::mutex>& lock) { m_cv.wait(lock); }
+
+bool Term::Private::BlockingQueue::wait_for_events(std::unique_lock<std::mutex>& lock, std::chrono::high_resolution_clock::duration timeout)
+{
+  auto res = m_cv.wait_for(lock, timeout);
+  return res == std::cv_status::no_timeout;
+}
